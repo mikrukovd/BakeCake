@@ -1,0 +1,42 @@
+
+{
+    "user": [
+        {
+            "id_tg": 0,
+            "tg_username": "username",
+            "advertising": true
+        }
+    ],
+
+    "cake": [
+        {
+            "name": "name",
+            "discription": "discription"
+        }
+    ],
+    
+    "order":[
+        {
+            "id": 0,
+            "user": {
+                "id": 0,
+                "tg_username": "username"
+            },
+            "cake": {
+                "name": "name",
+                "discription": "discription"
+            },
+            "status": "status",
+            "address": "address",
+            "comment": "comment",
+            "inscription": "с праздником",
+            "filling": "chocolate"
+        }
+    ],
+    "promocode": [
+        {
+            "code": "ger32",
+            "active": true
+        }
+    ]
+}
