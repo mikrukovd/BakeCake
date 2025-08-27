@@ -51,6 +51,11 @@ class Cake(models.Model):
         blank=False,
         null=False
     )
+    image = models.ImageField(
+        verbose_name='Фото тортика',
+        blank=True,
+        null=True
+    )
     discription = models.CharField(
         verbose_name="Описание",
         max_length=1000,

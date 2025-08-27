@@ -7,7 +7,7 @@ class UserAdmin(admin.ModelAdmin):
     
 
 class CakeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'discription', 'price')
+    list_display = ('name', 'discription', 'price', 'image')
 
 
 class OrderAdmin(admin.ModelAdmin):
