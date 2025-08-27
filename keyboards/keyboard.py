@@ -1,49 +1,45 @@
+import menu_constants
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
-buttons = {
-    "accept": InlineKeyboardButton("Согласен", callback_data="accept"),
-    "decline": InlineKeyboardButton("Не согласен", callback_data="decline"),
-    "main_menu": InlineKeyboardButton("Главное меню", callback_data="main_menu"),
-    "create_order": InlineKeyboardButton("Создать заказ", callback_data="create_order"),
-    "confirm_order": InlineKeyboardButton("Подтвердить заказ", callback_data="confirm_order"),
-    "skip": InlineKeyboardButton("Пропустить", callback_data="skip"),
-    "yes": InlineKeyboardButton("Да", callback_data="yes"),
-    "no": InlineKeyboardButton("Нет", callback_data="no"),
 
-    # всё что ниже идет по брифу, пока что это заглушки
-    "level_1": InlineKeyboardButton("1 уровень(+400)", callback_data="level_1"),
-    "level_2": InlineKeyboardButton("2 уровень(+750)", callback_data="level_2"),
-    "level_3": InlineKeyboardButton("3 уровень(+1100)", callback_data="level_3"),
+def create_keyboard(menu, callback) -> InlineKeyboardMarkup:
+    '''Создает клавиатуру из данных меню'''
+    keyboard = []
 
-    "form_square": InlineKeyboardButton("Квадрат(+600)", callback_data="form_square"),
-    "form_circle": InlineKeyboardButton("Круг(+400)", callback_data="form_circle"),
-    "form_rectangle": InlineKeyboardButton("Прямоугальник(+1000)", callback_data="form_rectangle"),
+    for index, row in enumerate(menu):
+        keyboard_row = []
+        for button_text in row:
+            callback_data = f"{callback}_{index}"
+            button = InlineKeyboardButton(button_text, callback_data=callback_data)
+            keyboard_row.append(button)
 
-    "topping_none": InlineKeyboardButton("Без топпинга", callback_data="topping_none"),
-    "white_sauce": InlineKeyboardButton("Белый соус(+100)", callback_data="white_sauce"),
-    "caramel_syrup": InlineKeyboardButton("Карамельный сироп(+180)", callback_data="caramel_syrup"),
-    "maple_syrup": InlineKeyboardButton("Мятный сироп(+200)", callback_data="maple_syrup"),
-    "strawberry_syrup": InlineKeyboardButton("Клубничный сироп(+300)", callback_data="strawberry_syrup"),
-    "blueberry_syrup": InlineKeyboardButton("Черничный сироп(+350)", callback_data="blueberry_syrup"),
-    "milk_chocolate": InlineKeyboardButton("Молочный шоколад(+200)", callback_data="milk_chocolate"),
+        keyboard.append(keyboard_row)
 
-    "add_berries": InlineKeyboardButton("Добавить ягоды", callback_data="add_berries"),
-    "blackberry": InlineKeyboardButton("Ежевика(+400)", callback_data="blackberry"),
-    "raspberry": InlineKeyboardButton("Малина(+300)", callback_data="raspberry"),
-    "blueberry": InlineKeyboardButton("Голубика(+450)", callback_data="blueberry"),
-    "stawberry": InlineKeyboardButton("Клубника(+500)", callback_data="stawberry"),
+    return InlineKeyboardMarkup(keyboard)
 
-    "add_decore": InlineKeyboardButton("Добавить декор", callback_data="add_decore"),
-    "pistachio": InlineKeyboardButton("Фистаки(+300)", callback_data="pistachio"),
-    "meringue": InlineKeyboardButton("Безе(+400)", callback_data="meringue"),
-    "filbert": InlineKeyboardButton("Фундук(+350)", callback_data="filbert"),
-    "pekan": InlineKeyboardButton("Пекан(+300)", callback_data="pekan"),
-    "marshmallow": InlineKeyboardButton("Маршмеллоу (+200)", callback_data="marshmallow"),
-    "marzipan": InlineKeyboardButton("Марципан (+280)", callback_data="marzipan"),
 
-    "add_caption": InlineKeyboardButton("Добавить надпись(500)", callback_data="add_caption"),
-    "add_comment": InlineKeyboardButton("Добавить комментарий к заказу", callback_data="add_comment"),
+def create_keyboard_with_back(menu, callback) -> InlineKeyboardMarkup:
+    '''Создает клавиатуру с кнопкой "Назад" в конце'''
+    keyboard = create_keyboard(menu, callback).inline_keyboard
+    keyboard.append([InlineKeyboardButton("Назад", callback_data="back")])
+    return InlineKeyboardMarkup(keyboard)
 
-}
 
-# TODO: сделать меню с кнопками
+# Готовые клавиатуры, мб их лучше вызывать в хэндлерах?
+# Разделил, т.к. удобней создавать(мне так кажется)
+ppd_keyboard = create_keyboard(menu_constants.AGREEMENT, "agreement")
+main_menu_keyboard = create_keyboard(menu_constants.MAIN_MENU, "main_menu")
+levels_keyboard = create_keyboard_with_back(menu_constants.LEVELS, "level")
+forms_keyboard = create_keyboard_with_back(menu_constants.FORMS, "form")
+toppings_keyboard = create_keyboard_with_back(menu_constants.TOPPINGS, "topping")
+add_berries_keyboard = create_keyboard_with_back(menu_constants.BERRIES_OPTION, "berries_option")
+berries_keyboard = create_keyboard_with_back(menu_constants.BERRIES, "berry")
+add_decor_keyboard = create_keyboard_with_back(menu_constants.DECOR_OPTION, "decor_option")
+decor_keyboard = create_keyboard_with_back(menu_constants.DECOR, "decor")
+caption_keyboard = create_keyboard_with_back(menu_constants.CAPTION, "caption")
+comment_keyboard = create_keyboard_with_back(menu_constants.COMMENT, "comment")
+delivery_time_keyboard = create_keyboard_with_back(menu_constants.DELIVERY_TIME, "delivery_time")
+confirm_order_keyboard = create_keyboard(menu_constants.CONFIRM_ORDER, "confirm")
+promo_code_keyboard = create_keyboard_with_back(menu_constants.PROMO_CODE, "promo")
+yes_no_keyboard = create_keyboard(menu_constants.YES_NO, "yes_no")
+back_keyboard = create_keyboard(menu_constants.BACK_ONLY, "back")
