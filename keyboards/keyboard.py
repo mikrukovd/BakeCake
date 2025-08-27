@@ -29,6 +29,7 @@ def create_keyboard_with_back(menu, callback) -> InlineKeyboardMarkup:
 # Разделил, т.к. удобней создавать(мне так кажется)
 ppd_keyboard = create_keyboard(menu_constants.AGREEMENT, "agreement")
 main_menu_keyboard = create_keyboard(menu_constants.MAIN_MENU, "main_menu")
+cake_option_keyboard = create_keyboard_with_back(menu_constants.CAKE_OPTION, "cake_option")
 levels_keyboard = create_keyboard_with_back(menu_constants.LEVELS, "level")
 forms_keyboard = create_keyboard_with_back(menu_constants.FORMS, "form")
 toppings_keyboard = create_keyboard_with_back(menu_constants.TOPPINGS, "topping")
@@ -42,4 +43,4 @@ delivery_time_keyboard = create_keyboard_with_back(menu_constants.DELIVERY_TIME,
 confirm_order_keyboard = create_keyboard(menu_constants.CONFIRM_ORDER, "confirm")
 promo_code_keyboard = create_keyboard_with_back(menu_constants.PROMO_CODE, "promo")
 yes_no_keyboard = create_keyboard(menu_constants.YES_NO, "yes_no") # мб не потребуется
-back_keyboard = create_keyboard(menu_constants.BACK_ONLY, "back")  # мб не потребуется
+back_keyboard = create_keyboard(menu_constants.BACK_ONLY, "back")
