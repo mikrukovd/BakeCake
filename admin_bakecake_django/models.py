@@ -131,10 +131,15 @@ class Order(models.Model):
         blank=False,
         null=False
     )
+    price = models.IntegerField(
+        verbose_name='Итоговая сумма заказа',
+        blank=False,
+        null=False
+    )
 
 
     def __str__(self):
-        return f"{self.id} {self.cake.price} {self.user.user_name}"
+        return f"{self.id} {self.price} {self.user.user_name}"
 
 
     class Meta:

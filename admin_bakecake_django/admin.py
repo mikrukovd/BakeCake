@@ -11,7 +11,7 @@ class CakeAdmin(admin.ModelAdmin):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('user', 'cake', 'status', 'comment', 'inscription', 'filling', 'odred_date')
+    list_display = ('user', 'cake', 'status', 'comment', 'inscription', 'filling', 'odred_date', 'price')
 
 
 class PromocodeAdmin(admin.ModelAdmin):
