@@ -41,5 +41,5 @@ comment_keyboard = create_keyboard_with_back(menu_constants.COMMENT, "comment")
 delivery_time_keyboard = create_keyboard_with_back(menu_constants.DELIVERY_TIME, "delivery_time")
 confirm_order_keyboard = create_keyboard(menu_constants.CONFIRM_ORDER, "confirm")
 promo_code_keyboard = create_keyboard_with_back(menu_constants.PROMO_CODE, "promo")
-yes_no_keyboard = create_keyboard(menu_constants.YES_NO, "yes_no")
-back_keyboard = create_keyboard(menu_constants.BACK_ONLY, "back")
+yes_no_keyboard = create_keyboard(menu_constants.YES_NO, "yes_no") # мб не потребуется
+back_keyboard = create_keyboard(menu_constants.BACK_ONLY, "back")  # мб не потребуется
