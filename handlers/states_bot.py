@@ -13,5 +13,6 @@
     STATE_DELIVERY_INFO,      # Информация о доставке
     STATE_PROMO_CODE,         # Промокод
     STATE_CONFIRM_ORDER,      # Подтверждение заказа
-    STATE_CANCEL_ORDER        # Отмена заказа
-) = range(15)
+    STATE_CANCEL_ORDER,       # Отмена заказа
+    STATE_EDIT_ORDER,         # Редактирование заказа
+) = range(16)

@@ -49,6 +49,14 @@ buttons = {
     'cash': InlineKeyboardButton("💵 Наличные", callback_data="cash"),
     'card': InlineKeyboardButton("💳 Карта", callback_data="card"),
     'online': InlineKeyboardButton("🌐 Онлайн", callback_data="online"),
+    'edit_cake': InlineKeyboardButton("🍰 Редактировать торт", callback_data="edit_cake"),
+    'edit_level': InlineKeyboardButton("🎂 Редактировать уровень", callback_data="edit_level"),
+    'edit_form': InlineKeyboardButton("🔷 Редактировать форму", callback_data="edit_form"),
+    'edit_topping': InlineKeyboardButton("🧁 Редактировать топпинг", callback_data="edit_topping"),
+    'edit_berries': InlineKeyboardButton("🫐 Редактировать ягоды", callback_data="edit_berries"),
+    'edit_decor': InlineKeyboardButton("✨ Редактировать декор", callback_data="edit_decor"),
+    'edit_caption': InlineKeyboardButton("📝 Редактировать надпись", callback_data="edit_caption"),
+    'edit_comment': InlineKeyboardButton("📋 Редактировать комментарий", callback_data="edit_comment"),
 }
 
 # Меню согласия с ПД
@@ -175,4 +183,13 @@ back_keyboard = InlineKeyboardMarkup([
 # Меню возврата в главное меню
 back_to_main_menu_keyboard = InlineKeyboardMarkup([
     [buttons['back_to_main_menu']]
+])
+
+# Меню редактирования заказа
+edit_order_keyboard = InlineKeyboardMarkup([
+    [buttons['edit_cake'], buttons['edit_level']],
+    [buttons['edit_form'], buttons['edit_topping']],
+    [buttons['edit_berries'], buttons['edit_decor']],
+    [buttons['edit_caption'], buttons['edit_comment']],
+    [buttons['back']]
 ])
