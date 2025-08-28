@@ -4,8 +4,6 @@ import string
 from urllib.parse import urlparse
 
 
-VK_ACCESS_TOKEN = "7db6ab927db6ab927db6ab92f57e8ffbf177db67db6ab921506b27253f65b3f4db19d78"
-
 def generate_vk_short_link(original_url):
     api_url = "https://api.vk.com/method/utils.getShortLink"
 
