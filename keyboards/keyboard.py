@@ -4,7 +4,7 @@ buttons = {
     'accept': InlineKeyboardButton("Согласен", callback_data="accept"),
     'decline': InlineKeyboardButton("Не согласен", callback_data="decline"),
     'simple_order': InlineKeyboardButton("Заказать готовый торт", callback_data="simple_order"),
-    'custom_order': InlineKeyboardButton("Заказать с кастомом", callback_data="custom_order"),
+    'custom_order': InlineKeyboardButton("Заказать кастомный торт", callback_data="custom_order"),
     'price': InlineKeyboardButton("Цены", callback_data="price"),
     'cake_1': InlineKeyboardButton("Торт 1", callback_data="cake_1"),
     'cake_2': InlineKeyboardButton("Торт 2", callback_data="cake_2"),
@@ -42,6 +42,8 @@ buttons = {
     'edit_order': InlineKeyboardButton("Редактировать", callback_data="edit_order"),
     'cancel_order': InlineKeyboardButton("Отменить", callback_data="cancel_order"),
     'promo_code': InlineKeyboardButton("Ввести промокод", callback_data="promo_code"),
+    'delivery_time': InlineKeyboardButton("Выбрать время доставки", callback_data="delivery_time"),
+    'delivery_address': InlineKeyboardButton("Указать адрес доставки", callback_data="delivery_address"),
 }
 
 # Меню согласия с ПД
@@ -134,6 +136,13 @@ caption_keyboard = InlineKeyboardMarkup([
 comment_keyboard = InlineKeyboardMarkup([
     [buttons['add_comment']],
     [buttons['skip']],
+    [buttons['back']]
+])
+
+# Меню доставки
+delivery_keyboard = InlineKeyboardMarkup([
+    [buttons['delivery_time']],
+    [buttons['delivery_address']],
     [buttons['back']]
 ])
 
