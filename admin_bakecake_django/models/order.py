@@ -52,10 +52,11 @@ class Order(models.Model):
         blank=False,
         null=False
     )
-    odred_date = models.DateTimeField(
-        verbose_name='Время заказа',
+    odred_date = models.BooleanField(
+        verbose_name='Ускоренная доставка',
         blank=False,
-        null=False
+        null=False,
+        default=False
     )
     level = models.ForeignKey(
         LevelCake,
