@@ -1,243 +1,211 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-from math import ceil
+import calendar
 
-buttons = {
-    'accept': InlineKeyboardButton("✅ Согласен", callback_data="accept"),
-    'decline': InlineKeyboardButton("❌ Не согласен", callback_data="decline"),
-    'choice_cake': InlineKeyboardButton("🍰 Выбрать тортик", callback_data="page_cake_1"),
-    'next': InlineKeyboardButton("Дальше", callback_data="next"),
-    'custom_order': InlineKeyboardButton("🎂 Заказать кастомный торт", callback_data="custom_order"),
-    'price': InlineKeyboardButton("💰 Цены", callback_data="price"),
-    'cake_1': InlineKeyboardButton("Торт 1 - 2000₽", callback_data="cake_1"),
-    'cake_2': InlineKeyboardButton("Торт 2 - 2500₽", callback_data="cake_2"),
-    'cake_3': InlineKeyboardButton("Торт 3 - 3000₽", callback_data="cake_3"),
-    'back': InlineKeyboardButton("◀️ Назад", callback_data="back"),
-    'back_to_main_menu': InlineKeyboardButton("🏠 Главное меню", callback_data="back_to_main_menu"),
-    'level_1': InlineKeyboardButton("1 уровень (+400₽)", callback_data="level_1"),
-    'level_2': InlineKeyboardButton("2 уровень (+750₽)", callback_data="level_2"),
-    'level_3': InlineKeyboardButton("3 уровень (+1100₽)", callback_data="level_3"),
-    'skip': InlineKeyboardButton("⏭️ Пропустить", callback_data="skip"),
-    'form_square': InlineKeyboardButton("🔷 Квадрат (+600₽)", callback_data="form_square"),
-    'form_circle': InlineKeyboardButton("🔵 Круг (+400₽)", callback_data="form_circle"),
-    'form_rectangle': InlineKeyboardButton("🔶 Прямоугольник (+1000₽)", callback_data="form_rectangle"),
-    'white_sauce': InlineKeyboardButton("Белый соус (+200₽)", callback_data="white_sauce"),
-    'caramel_syrup': InlineKeyboardButton("Карамельный сироп (+180₽)", callback_data="caramel_syrup"),
-    'maple_syrup': InlineKeyboardButton("Кленовый сироп (+200₽)", callback_data="maple_syrup"),
-    'strawberry_syrup': InlineKeyboardButton("Клубничный сироп (+300₽)", callback_data="strawberry_syrup"),
-    'blueberry_syrup': InlineKeyboardButton("Черничный сироп (+350₽)", callback_data="blueberry_syrup"),
-    'milk_chocolate': InlineKeyboardButton("Молочный шоколад (+200₽)", callback_data="milk_chocolate"),
-    'topping_none': InlineKeyboardButton("🚫 Без топпинга", callback_data="topping_none"),
-    'add_berries': InlineKeyboardButton("🫐 Добавить ягоды", callback_data="add_berries"),
-    'blackberry': InlineKeyboardButton("Ежевика (+400₽)", callback_data="blackberry"),
-    'raspberry': InlineKeyboardButton("Малина (+300₽)", callback_data="raspberry"),
-    'blueberry': InlineKeyboardButton("Голубика (+450₽)", callback_data="blueberry"),
-    'strawberry': InlineKeyboardButton("Клубника (+500₽)", callback_data="strawberry"),
-    'add_decor': InlineKeyboardButton("✨ Добавить декор", callback_data="add_decor"),
-    'pistachio': InlineKeyboardButton("Фисташки (+300₽)", callback_data="pistachio"),
-    'meringue': InlineKeyboardButton("Безе (+400₽)", callback_data="meringue"),
-    'hazelnut': InlineKeyboardButton("Фундук (+350₽)", callback_data="hazelnut"),
-    'pecan': InlineKeyboardButton("Пекан (+300₽)", callback_data="pecan"),
-    'marshmallow': InlineKeyboardButton("Маршмеллоу (+200₽)", callback_data="marshmallow"),
-    'marzipan': InlineKeyboardButton("Марципан (+280₽)", callback_data="marzipan"),
-    'add_caption': InlineKeyboardButton("📝 Добавить надпись (+500₽)", callback_data="add_caption"),
-    'add_comment': InlineKeyboardButton("📋 Добавить комментарий к заказу", callback_data="add_comment"),
-    'confirm_order': InlineKeyboardButton("✅ Подтвердить заказ", callback_data="confirm_order"),
-    'edit_order': InlineKeyboardButton("✏️ Редактировать", callback_data="edit_order"),
-    'cancel_order': InlineKeyboardButton("❌ Отменить", callback_data="cancel_order"),
-    'promo_code': InlineKeyboardButton("🎫 Ввести промокод", callback_data="promo_code"),
-    'delivery_time': InlineKeyboardButton("⏰ Выбрать время доставки", callback_data="delivery_time"),
-    'delivery_address': InlineKeyboardButton("📍 Указать адрес доставки", callback_data="delivery_address"),
-    'payment': InlineKeyboardButton("💳 Способ оплаты", callback_data="payment"),
-    'cash': InlineKeyboardButton("💵 Наличные", callback_data="cash"),
-    'card': InlineKeyboardButton("💳 Карта", callback_data="card"),
-    'online': InlineKeyboardButton("🌐 Онлайн", callback_data="online"),
-    'edit_cake': InlineKeyboardButton("🍰 Редактировать торт", callback_data="edit_cake"),
-    'edit_level': InlineKeyboardButton("🎂 Редактировать уровень", callback_data="edit_level"),
-    'edit_form': InlineKeyboardButton("🔷 Редактировать форму", callback_data="edit_form"),
-    'edit_topping': InlineKeyboardButton("🧁 Редактировать топпинг", callback_data="edit_topping"),
-    'edit_berries': InlineKeyboardButton("🫐 Редактировать ягоды", callback_data="edit_berries"),
-    'edit_decor': InlineKeyboardButton("✨ Редактировать декор", callback_data="edit_decor"),
-    'edit_caption': InlineKeyboardButton("📝 Редактировать надпись", callback_data="edit_caption"),
-    'edit_comment': InlineKeyboardButton("📋 Редактировать комментарий", callback_data="edit_comment"),
-}
+# Кнопки основного меню
+btn_order = InlineKeyboardButton("🎂 Заказать торт", callback_data="order")
+btn_active_order = InlineKeyboardButton("📝 Активные заказы", callback_data="active_order")
+btn_price = InlineKeyboardButton("💰 Цены", callback_data="price")
+btn_back = InlineKeyboardButton("◀️ Назад", callback_data="back")
+btn_back_to_main = InlineKeyboardButton("🏠 Главное меню", callback_data="back_to_main_menu")
+btn_skip = InlineKeyboardButton("⏭️ Пропустить", callback_data="skip")
+btn_accept = InlineKeyboardButton("✅ Согласен", callback_data="accept")
+btn_decline = InlineKeyboardButton("❌ Не согласен", callback_data="decline")
 
-# Меню согласия с ПД
-ppd_keyboard = InlineKeyboardMarkup([
-    [buttons['accept'], buttons['decline']]
-])
+# Кнопки выбора торта
+btn_cake_1 = InlineKeyboardButton("Торт 1 - 2000₽", callback_data="cake_1")  # из бд
+btn_cake_2 = InlineKeyboardButton("Торт 2 - 2500₽", callback_data="cake_2")  # из бд
+btn_cake_3 = InlineKeyboardButton("Торт 3 - 3000₽", callback_data="cake_3")  # из бд
 
-# Главное меню
+# Кнопки уровней
+btn_level_1 = InlineKeyboardButton("1 уровень (+400₽)", callback_data="level_1")  # из бд
+btn_level_2 = InlineKeyboardButton("2 уровень (+750₽)", callback_data="level_2")  # из бд
+btn_level_3 = InlineKeyboardButton("3 уровень (+1100₽)", callback_data="level_3")  # из бд
+
+# Кнопки форм
+btn_form_square = InlineKeyboardButton("🔷 Квадрат (+600₽)", callback_data="form_square")  # из бд
+btn_form_circle = InlineKeyboardButton("🔵 Круг (+400₽)", callback_data="form_circle")  # из бд
+btn_form_rectangle = InlineKeyboardButton("🔶 Прямоугольник (+1000₽)", callback_data="form_rectangle")  # из бд
+
+# Кнопки топпингов
+btn_white_sauce = InlineKeyboardButton("Белый соус (+200₽)", callback_data="white_sauce")  # из бд
+btn_caramel_syrup = InlineKeyboardButton("Карамельный сироп (+180₽)", callback_data="caramel_syrup")  # из бд
+btn_maple_syrup = InlineKeyboardButton("Кленовый сироп (+200₽)", callback_data="maple_syrup")  # из бд
+btn_strawberry_syrup = InlineKeyboardButton("Клубничный сироп (+300₽)", callback_data="strawberry_syrup")  # из бд
+btn_blueberry_syrup = InlineKeyboardButton("Черничный сироп (+350₽)", callback_data="blueberry_syrup")  # из бд
+btn_milk_chocolate = InlineKeyboardButton("Молочный шоколад (+200₽)", callback_data="milk_chocolate")  # из бд
+btn_topping_none = InlineKeyboardButton("🚫 Без топпинга", callback_data="topping_none")  # из бд
+
+# Кнопки ягод
+btn_add_berries = InlineKeyboardButton("🫐 Добавить ягоды", callback_data="add_berries")
+btn_blackberry = InlineKeyboardButton("Ежевика (+400₽)", callback_data="blackberry")  # из бд
+btn_raspberry = InlineKeyboardButton("Малина (+300₽)", callback_data="raspberry")  # из бд
+btn_blueberry = InlineKeyboardButton("Голубика (+450₽)", callback_data="blueberry")  # из бд
+btn_strawberry = InlineKeyboardButton("Клубника (+500₽)", callback_data="strawberry")  # из бд
+
+# Кнопки декора
+btn_add_decor = InlineKeyboardButton("✨ Добавить декор", callback_data="add_decor")
+btn_pistachio = InlineKeyboardButton("Фисташки (+300₽)", callback_data="pistachio")  # из бд
+btn_meringue = InlineKeyboardButton("Безе (+400₽)", callback_data="meringue")  # из бд
+btn_hazelnut = InlineKeyboardButton("Фундук (+350₽)", callback_data="hazelnut")  # из бд
+btn_pecan = InlineKeyboardButton("Пекан (+300₽)", callback_data="pecan")  # из бд
+btn_marshmallow = InlineKeyboardButton("Маршмеллоу (+200₽)", callback_data="marshmallow")  # из бд
+btn_marzipan = InlineKeyboardButton("Марципан (+280₽)", callback_data="marzipan")  # из бд
+
+# Кнопки надписи и комментария
+btn_add_caption = InlineKeyboardButton("📝 Добавить надпись (+500₽)", callback_data="add_caption")
+btn_add_comment = InlineKeyboardButton("📋 Добавить комментарий", callback_data="add_comment")
+
+# Кнопки подтверждения заказа
+btn_confirm_order = InlineKeyboardButton("✅ Подтвердить заказ", callback_data="confirm_order")
+btn_edit_order = InlineKeyboardButton("✏️ Редактировать", callback_data="edit_order")
+btn_cancel_order = InlineKeyboardButton("❌ Отменить", callback_data="cancel_order")
+
+# Кнопки оплаты
+btn_cash = InlineKeyboardButton("💵 Наличные", callback_data="cash")
+btn_card = InlineKeyboardButton("💳 Карта", callback_data="card")
+btn_online = InlineKeyboardButton("🌐 Онлайн", callback_data="online")
+
+# Кнопки даты доставки
+#btn_today = InlineKeyboardButton("📅 Сегодня", callback_data="delivery_today")
+btn_tomorrow = InlineKeyboardButton("📅 Завтра", callback_data="delivery_tomorrow")
+btn_day_after_tomorrow = InlineKeyboardButton("📅 Послезавтра", callback_data="delivery_day_after_tomorrow")
+btn_express_delivery = InlineKeyboardButton("🚀 Ускоренная доставка (+500₽)", callback_data="express_delivery")
+btn_choose_date = InlineKeyboardButton("📆 Выбрать другую дату", callback_data="choose_date")
+
+
+# Клавиатуры
+ppd_keyboard = InlineKeyboardMarkup([[btn_accept, btn_decline]])
+
 main_menu_keyboard = InlineKeyboardMarkup([
-    [buttons['choice_cake']],
+    [btn_order],
+    [btn_active_order, btn_price]
 ])
 
-# Меню готовых тортов
 cake_menu_keyboard = InlineKeyboardMarkup([
-    [buttons['cake_1'], buttons['cake_2']],
-    [buttons['cake_3']],
-    [buttons['back_to_main_menu']]
+    [btn_cake_1],
+    [btn_cake_2],
+    [btn_cake_3],
+    [btn_back_to_main]
 ])
 
-cake_keyboard = InlineKeyboardMarkup([
-    [buttons['next']],
-    [buttons['back_to_main_menu']]
-])
-
-# Меню уровней
 levels_keyboard = InlineKeyboardMarkup([
-    [buttons['level_1']],
-    [buttons['level_2']],
-    [buttons['level_3']],
-    [buttons['back'], buttons['back_to_main_menu']]
+    [btn_level_1],
+    [btn_level_2],
+    [btn_level_3],
+    [btn_back, btn_back_to_main]
 ])
 
-# Меню форм
 forms_keyboard = InlineKeyboardMarkup([
-    [buttons['form_square'], buttons['form_circle']],
-    [buttons['form_rectangle']],
-    [buttons['back'], buttons['back_to_main_menu']]
+    [btn_form_square],
+    [btn_form_circle],
+    [btn_form_rectangle],
+    [btn_back, btn_back_to_main]
 ])
 
-# Меню топпингов
 toppings_keyboard = InlineKeyboardMarkup([
-    [buttons['white_sauce'], buttons['caramel_syrup']],
-    [buttons['maple_syrup'], buttons['strawberry_syrup']],
-    [buttons['blueberry_syrup'], buttons['milk_chocolate']],
-    [buttons['topping_none']],
-    [buttons['back'], buttons['back_to_main_menu']]
+    [btn_white_sauce], [btn_caramel_syrup],
+    [btn_maple_syrup], [btn_strawberry_syrup],
+    [btn_blueberry_syrup], [btn_milk_chocolate],
+    [btn_topping_none],
+    [btn_back, btn_back_to_main]
 ])
 
-# Меню добавления ягод
 add_berries_keyboard = InlineKeyboardMarkup([
-    [buttons['add_berries']],
-    [buttons['skip']],
-    [buttons['back'], buttons['back_to_main_menu']]
+    [btn_add_berries],
+    [btn_skip],
+    [btn_back, btn_back_to_main]
 ])
 
-# Меню выбора ягод
 berries_keyboard = InlineKeyboardMarkup([
-    [buttons['blackberry'], buttons['raspberry']],
-    [buttons['blueberry'], buttons['strawberry']],
-    [buttons['skip']],
-    [buttons['back'], buttons['back_to_main_menu']]
+    [btn_blackberry], [btn_raspberry],
+    [btn_blueberry], [btn_strawberry],
+    [btn_skip],
+    [btn_back, btn_back_to_main]
 ])
 
-# Меню добавления декора
 add_decor_keyboard = InlineKeyboardMarkup([
-    [buttons['add_decor']],
-    [buttons['skip']],
-    [buttons['back'], buttons['back_to_main_menu']]
+    [btn_add_decor],
+    [btn_skip],
+    [btn_back, btn_back_to_main]
 ])
 
-# Меню выбора декора
 decor_keyboard = InlineKeyboardMarkup([
-    [buttons['pistachio'], buttons['meringue']],
-    [buttons['hazelnut'], buttons['pecan']],
-    [buttons['marshmallow'], buttons['marzipan']],
-    [buttons['skip']],
-    [buttons['back'], buttons['back_to_main_menu']]
+    [btn_pistachio], [btn_meringue],
+    [btn_hazelnut], [btn_pecan],
+    [btn_marshmallow], [btn_marzipan],
+    [btn_skip],
+    [btn_back, btn_back_to_main]
 ])
 
-# Меню надписи
 caption_keyboard = InlineKeyboardMarkup([
-    [buttons['add_caption']],
-    [buttons['skip']],
-    [buttons['back'], buttons['back_to_main_menu']]
+    [btn_add_caption],
+    [btn_skip],
+    [btn_back, btn_back_to_main]
 ])
 
-# Меню комментария
 comment_keyboard = InlineKeyboardMarkup([
-    [buttons['add_comment']],
-    [buttons['skip']],
-    [buttons['back'], buttons['back_to_main_menu']]
+    [btn_add_comment],
+    [btn_skip],
+    [btn_back, btn_back_to_main]
 ])
 
-# Меню доставки
 delivery_keyboard = InlineKeyboardMarkup([
-    [buttons['delivery_time']],
-    [buttons['delivery_address']],
-    [buttons['back'], buttons['back_to_main_menu']]
+    [btn_back, btn_back_to_main]
 ])
 
-# Меню оплаты
-payment_keyboard = InlineKeyboardMarkup([
-    [buttons['cash'], buttons['card']],
-    [buttons['online']],
-    [buttons['back'], buttons['back_to_main_menu']]
-])
-
-# Меню подтверждения заказа
 confirm_order_keyboard = InlineKeyboardMarkup([
-    [buttons['confirm_order']],
-    [buttons['edit_order']],
-    [buttons['cancel_order']]
+    [btn_confirm_order],
+    [btn_cancel_order]
 ])
 
-# Меню промокода
-promo_code_keyboard = InlineKeyboardMarkup([
-    [buttons['promo_code']],
-    [buttons['skip']],
-    [buttons['back'], buttons['back_to_main_menu']]
+payment_keyboard = InlineKeyboardMarkup([
+    [btn_cash], [btn_card],
+    [btn_online],
+    [btn_back, btn_back_to_main]
 ])
 
-# Меню возврата
-back_keyboard = InlineKeyboardMarkup([
-    [buttons['back']]
+back_keyboard = InlineKeyboardMarkup([[btn_back]])
+back_to_main_keyboard = InlineKeyboardMarkup([[btn_back_to_main]])
+
+
+# Кнопки месяцев для выбора даты
+def get_month_buttons(year, month):
+    """Генерирует кнопки для выбора дня месяца"""
+    month_days = calendar.monthcalendar(year, month)
+    buttons = []
+
+    # Добавляем дни месяца
+    for week in month_days:
+        week_buttons = []
+        for day in week:
+            if day != 0:
+                date_str = f"{year}-{month:02d}-{day:02d}"
+                week_buttons.append(InlineKeyboardButton(str(day), callback_data=f"date_{date_str}"))
+        if week_buttons:
+            buttons.append(week_buttons)
+
+    # Добавляем кнопки навигации
+    prev_month = month - 1 if month > 1 else 12
+    prev_year = year if month > 1 else year - 1
+    next_month = month + 1 if month < 12 else 1
+    next_year = year if month < 12 else year + 1
+
+    nav_buttons = [
+        InlineKeyboardButton("◀️", callback_data=f"month_{prev_year}_{prev_month}"),
+        InlineKeyboardButton(f"{calendar.month_name[month]} {year}", callback_data="current"),
+        InlineKeyboardButton("▶️", callback_data=f"month_{next_year}_{next_month}")
+    ]
+    buttons.append(nav_buttons)
+    buttons.append([btn_back, btn_back_to_main])
+
+    return InlineKeyboardMarkup(buttons)
+
+
+# Клавиатура выбора даты доставки
+delivery_date_keyboard = InlineKeyboardMarkup([
+    [btn_tomorrow],
+    [btn_day_after_tomorrow],
+    [btn_express_delivery],
+    [btn_choose_date],
+    [btn_back, btn_back_to_main]
 ])
-
-# Меню возврата в главное меню
-back_to_main_menu_keyboard = InlineKeyboardMarkup([
-    [buttons['back_to_main_menu']]
-])
-
-# Меню редактирования заказа
-edit_order_keyboard = InlineKeyboardMarkup([
-    [buttons['edit_cake'], buttons['edit_level']],
-    [buttons['edit_form'], buttons['edit_topping']],
-    [buttons['edit_berries'], buttons['edit_decor']],
-    [buttons['edit_caption'], buttons['edit_comment']],
-    [buttons['back']]
-])
-
-
-def get_choice_cake_keyboard(cakes, page=1):
-    page = int(page)
-    per_page = 4
-    start = (page - 1) * per_page
-    end = start + per_page
-    cakes_chunk = cakes[start:end]
-    keyboard = []        
-    for cake in cakes_chunk:
-        text = cake.name
-        callback_data = "cake_{}".format(cake.id)
-        btn = InlineKeyboardButton(text, callback_data=callback_data)
-        keyboard.append([btn])
-
-    total_pages = ceil(len(cakes) / per_page)        
-    pagination_keyboard = []
-    if page == 1:
-        pagination_keyboard.append(
-            [
-                InlineKeyboardButton(f'page {page}', callback_data='pass'),
-                InlineKeyboardButton('->', callback_data=f'page_cake_{page + 1}'),
-            ]
-        )
-    elif page == total_pages:
-        pagination_keyboard.append(
-            [
-                InlineKeyboardButton('<-', callback_data=f'page_cake_{page - 1}'),
-                InlineKeyboardButton(f'page {page}', callback_data='pass'),                
-            ]
-        )
-    else:
-        pagination_keyboard.append(
-            [
-                InlineKeyboardButton('<-', callback_data=f'page_cake_{page - 1}'),
-                InlineKeyboardButton(f'page {page}', callback_data='pass'),
-                InlineKeyboardButton('->', callback_data=f'page_cake_{page + 1}'),          
-            ]
-        )
-        
-    pagination_keyboard.append([buttons['back_to_main_menu']])  
-    keyboard.extend(pagination_keyboard)    
-    return InlineKeyboardMarkup(keyboard)
