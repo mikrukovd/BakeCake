@@ -1,5 +1,5 @@
 from . import states_bot
-from keyboards.keyboard import (
+from ptb.keyboards.keyboard import (
     main_menu_keyboard, cake_menu_keyboard, levels_keyboard, forms_keyboard,
     toppings_keyboard, add_berries_keyboard, berries_keyboard, add_decor_keyboard,
     decor_keyboard, caption_keyboard, comment_keyboard, ppd_keyboard,

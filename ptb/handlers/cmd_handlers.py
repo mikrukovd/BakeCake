@@ -1,4 +1,4 @@
-from keyboards import keyboard
+from ptb.keyboards import keyboard
 from . import states_bot
 
 
