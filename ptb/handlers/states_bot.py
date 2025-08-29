@@ -1,9 +1,9 @@
 (
     STATE_PPD,                # ПД
-    STATE_MAIN_MENU,          # Главное меню
-    STATE_SIMPLE_ORDER,       # Выбор готового торта
-    STATE_CUSTOM_ORDER,       # Начало кастомного заказа
-    STATE_LEVEL_SELECTION,    # Уровень торта
+    MAIN_MENU,          # Главное меню
+    CHOICE_CAKE,  
+    INFO_CAKE,     # Выбор готового торта
+    CHOCIE_LEVEL,    # Уровень торта
     STATE_FORM_SELECTION,     # Форма торта
     STATE_TOPPING_SELECTION,  # Топпинг
     STATE_ADD_BERRIES,        # Добавление ягод

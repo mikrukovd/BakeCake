@@ -1,9 +1,11 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+from math import ceil
 
 buttons = {
     'accept': InlineKeyboardButton("✅ Согласен", callback_data="accept"),
     'decline': InlineKeyboardButton("❌ Не согласен", callback_data="decline"),
-    'simple_order': InlineKeyboardButton("🍰 Заказать готовый торт", callback_data="simple_order"),
+    'choice_cake': InlineKeyboardButton("🍰 Выбрать тортик", callback_data="page_cake_1"),
+    'next': InlineKeyboardButton("Дальше", callback_data="next"),
     'custom_order': InlineKeyboardButton("🎂 Заказать кастомный торт", callback_data="custom_order"),
     'price': InlineKeyboardButton("💰 Цены", callback_data="price"),
     'cake_1': InlineKeyboardButton("Торт 1 - 2000₽", callback_data="cake_1"),
@@ -66,15 +68,18 @@ ppd_keyboard = InlineKeyboardMarkup([
 
 # Главное меню
 main_menu_keyboard = InlineKeyboardMarkup([
-    [buttons['simple_order']],
-    [buttons['custom_order']],
-    [buttons['price']]
+    [buttons['choice_cake']],
 ])
 
 # Меню готовых тортов
 cake_menu_keyboard = InlineKeyboardMarkup([
     [buttons['cake_1'], buttons['cake_2']],
     [buttons['cake_3']],
+    [buttons['back_to_main_menu']]
+])
+
+cake_keyboard = InlineKeyboardMarkup([
+    [buttons['next']],
     [buttons['back_to_main_menu']]
 ])
 
@@ -193,3 +198,46 @@ edit_order_keyboard = InlineKeyboardMarkup([
     [buttons['edit_caption'], buttons['edit_comment']],
     [buttons['back']]
 ])
+
+
+def get_choice_cake_keyboard(cakes, page=1):
+    page = int(page)
+    per_page = 4
+    start = (page - 1) * per_page
+    end = start + per_page
+    cakes_chunk = cakes[start:end]
+    keyboard = []        
+    for cake in cakes_chunk:
+        text = cake.name
+        callback_data = "cake_{}".format(cake.id)
+        btn = InlineKeyboardButton(text, callback_data=callback_data)
+        keyboard.append([btn])
+
+    total_pages = ceil(len(cakes) / per_page)        
+    pagination_keyboard = []
+    if page == 1:
+        pagination_keyboard.append(
+            [
+                InlineKeyboardButton(f'page {page}', callback_data='pass'),
+                InlineKeyboardButton('->', callback_data=f'page_cake_{page + 1}'),
+            ]
+        )
+    elif page == total_pages:
+        pagination_keyboard.append(
+            [
+                InlineKeyboardButton('<-', callback_data=f'page_cake_{page - 1}'),
+                InlineKeyboardButton(f'page {page}', callback_data='pass'),                
+            ]
+        )
+    else:
+        pagination_keyboard.append(
+            [
+                InlineKeyboardButton('<-', callback_data=f'page_cake_{page - 1}'),
+                InlineKeyboardButton(f'page {page}', callback_data='pass'),
+                InlineKeyboardButton('->', callback_data=f'page_cake_{page + 1}'),          
+            ]
+        )
+        
+    pagination_keyboard.append([buttons['back_to_main_menu']])  
+    keyboard.extend(pagination_keyboard)    
+    return InlineKeyboardMarkup(keyboard)

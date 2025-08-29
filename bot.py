@@ -1,5 +1,5 @@
 from telegram.ext import ApplicationBuilder
-from handlers.conversation_handlers import conversation_handler
+from ptb.handlers.conversation_handlers import conversation_handler
 from environs import Env
 
 env = Env()
