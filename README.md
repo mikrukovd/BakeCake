@@ -62,7 +62,19 @@ oauth.vk.com/oauth/authorize?client_id=...&display=page&scope=wall,groups,photos
 
 Для запуска бота используйте:
 ```
+python manage.py runserver & python manage.py bot
+```
+Или же второй способ запуск в двух терминалах (простой способ)
+
+Открываете два окна/вкладки терминала:
+
+в первой вкладке:
+```
 python manage.py runserver
+```
+во второй вкладке:
+```
 python manage.py bot
 ```
 После этого бот начнет принимать заказы в Telegram.
+
