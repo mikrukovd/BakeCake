@@ -18,7 +18,7 @@
 ```
 pip install -r requirements.txt
 ```
-Создайте базу данных Создайте базу данных SQLite:
+Создайте базу данных SQLite:
 ```
 python manage.py makemigrations
 python manage.py migrate
@@ -53,12 +53,11 @@ DEBUG=1
 
 Вы увидите сервисный токен приложения на подобии такого: 82a02da882a02da882a02da8a981b7f3cc882a082a02da8e4af9c41e8551329276dde72.
 
-## Запуск проекта
-
 Для запуска бота используйте:
 ```
 python bot.py
 ```
 После этого бот начнет принимать заказы в Telegram.
+
 
 
